@@ -1,4 +1,4 @@
-DevOps Homelab (On-Prem Ubuntu)
+## DevOps Homelab
 
 This project demonstrates a complete on-prem DevOps environment built on Ubuntu, simulating real-world infrastructure with containerization, reverse proxy, monitoring, logging, security, and automation.
 
