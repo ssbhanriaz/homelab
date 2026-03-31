@@ -1,0 +1,14 @@
+- hosts: localhost
+  become: yes
+
+  tasks:
+
+    - name: Copy docker-compose file
+      copy:
+        src: /home/subhan/homelab/docker-compose.yml
+        dest: /home/subhan/docker-compose.yml
+
+    - name: Run Docker Compose
+      command: docker compose up -d
+      args:
+        chdir: /home/subhan/homelab

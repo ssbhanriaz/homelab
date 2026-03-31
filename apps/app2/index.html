@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reverse Proxy Check</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: rgba(15, 23, 42, 0.75);
+      --border: rgba(255, 255, 255, 0.12);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --danger: #f43f5e;
+      --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #1d4ed8 0%, transparent 30%),
+        radial-gradient(circle at bottom right, #0ea5e9 0%, transparent 25%),
+        linear-gradient(135deg, #020617, #0f172a 55%, #111827);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 960px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      overflow: hidden;
+    }
+
+    .header {
+      padding: 32px 32px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .body {
+      padding: 28px 32px 32px;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding: 16px 18px;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+      background: rgba(34, 197, 94, 0.08);
+      border-radius: 16px;
+      font-weight: 700;
+      color: #bbf7d0;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      box-shadow: 0 0 12px rgba(34, 197, 94, 0.8);
+      flex-shrink: 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 18px;
+    }
+
+    .info-box {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 18px;
+    }
+
+    .label {
+      display: block;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 18px;
+      font-weight: 700;
+      word-break: break-word;
+    }
+
+    .footer {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    code {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 2px 8px;
+      border-radius: 8px;
+      color: #f8fafc;
+    }
+
+    .warning {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(244, 63, 94, 0.25);
+      background: rgba(244, 63, 94, 0.08);
+      color: #fecdd3;
+      font-size: 14px;
+    }
+
+    @media (max-width: 640px) {
+      h1 {
+        font-size: 28px;
+      }
+
+      .header,
+      .body {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="badge">Reverse Proxy Verification</div>
+        <h1>Proxy is Working</h1>
+        <p class="subtitle">
+          This page confirms that traffic is reaching the backend through the reverse proxy.
+        </p>
+      </div>
+
+      <div class="body">
+        <div class="status">
+          <span class="dot"></span>
+          Reverse proxy check passed successfully
+        </div>
+
+        <div class="grid">
+          <div class="info-box">
+            <span class="label">Domain</span>
+            <div class="value" id="domain">Loading...</div>
+          </div>
+
+          <div class="info-box">
+            <span class="label">Current URL</span>
+            <div class="value" id="url">Loading...</div>
+          </div>
+
+          <div class="info-box">
+            <span class="label">Protocol</span>
+            <div class="value" id="protocol">Loading...</div>
+          </div>
+
+          <div class="info-box">
+            <span class="label">Timestamp</span>
+            <div class="value" id="time">Loading...</div>
+          </div>
+
+          <div class="info-box">
+            <span class="label">User Agent</span>
+            <div class="value" id="ua" style="font-size:14px;">Loading...</div>
+          </div>
+
+          <div class="info-box">
+            <span class="label">Test Path</span>
+            <div class="value" id="path">Loading...</div>
+          </div>
+        </div>
+
+        <div class="footer">
+          Running on nexus server, testing by Subhan Riaz.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("domain").textContent = window.location.hostname || "N/A";
+    document.getElementById("url").textContent = window.location.href;
+    document.getElementById("protocol").textContent = window.location.protocol.replace(":", "").toUpperCase();
+    document.getElementById("path").textContent = window.location.pathname;
+    document.getElementById("ua").textContent = navigator.userAgent;
+    document.getElementById("time").textContent = new Date().toLocaleString();
+  </script>
+</body>
+</html>

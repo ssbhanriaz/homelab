@@ -1,0 +1,49 @@
+- hosts: localhost
+  become: yes
+
+  tasks:
+
+    - name: Update apt packages
+      apt:
+        update_cache: yes
+
+    - name: Install required packages
+      apt:
+        name:
+          - docker.io
+          - docker-compose-v2
+          - nginx
+          - git
+          - ufw
+        state: present
+
+    - name: Enable Docker
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Enable Nginx
+      systemd:
+        name: nginx
+        enabled: yes
+        state: started
+
+    - name: Allow SSH
+      ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: Allow HTTP
+      ufw:
+        rule: allow
+        port: 80
+
+    - name: Allow HTTPS
+      ufw:
+        rule: allow
+        port: 443
+
+    - name: Enable UFW
+      ufw:
+        state: enabled
